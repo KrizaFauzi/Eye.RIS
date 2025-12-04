@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Eye.IRIS - Platform Data Analytics{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Header -->
+    {% include 'partials/header.html' %}
+    
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- Footer -->
+    {% block footer %}{% include 'partials/footer.html' %}{% endblock %}
+    
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const hamburger = document.getElementById('hamburger');
+                const navAuth = document.getElementById('navAuth');
+                if (!hamburger || !navAuth) return;
+
+                function closeMenu() {
+                    navAuth.classList.remove('open');
+                    const panel = navAuth.querySelector('.mobile-panel');
+                    if (panel) panel.setAttribute('aria-hidden', 'true');
+                    hamburger.setAttribute('aria-expanded', 'false');
+                }
+
+                function openMenu() {
+                    navAuth.classList.add('open');
+                    const panel = navAuth.querySelector('.mobile-panel');
+                    if (panel) panel.setAttribute('aria-hidden', 'false');
+                    hamburger.setAttribute('aria-expanded', 'true');
+                }
+
+                hamburger.addEventListener('click', function (e) {
+                    const isOpen = navAuth.classList.contains('open');
+                    if (isOpen) closeMenu(); else openMenu();
+                });
+
+                document.addEventListener('click', function (e) {
+                    if (!navAuth.classList.contains('open')) return;
+                    if (!navAuth.contains(e.target) && e.target !== hamburger) closeMenu();
+                });
+
+                document.addEventListener('keydown', function (e) {
+                    if (e.key === 'Escape') closeMenu();
+                });
+            });
+        </script>
+
+        {% block extra_js %}{% endblock %}
+</body>
+</html>

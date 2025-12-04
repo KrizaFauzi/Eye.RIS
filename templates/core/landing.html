@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Eye.IRIS - Home{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <!-- Left Content -->
+      <div class="hero-left">
+        <h1 class="hero-title">Eye.RIS</h1>
+        <p class="hero-copy">
+          <h3>
+            Diagnosis Mata Lebih Akurat dengan teknologi Deep Learning.
+          </h3>
+        </p>
+        <p class="hero-copy">
+          Integrasikan teknologi Deep Learning terdepan untuk menganalisis gambar retina mata dan memberikan prediksi penyakit yang cepat, akurat, dan komprehensif. Dirancang sebagai second opinion esensial untuk mendukung keputusan klinis Anda.
+        </p>
+        
+        <!-- CTA Buttons -->
+        <div class="cta-row">
+          <a href="{% url 'login' %}" class="cta">Mulai Sekarang</a>
+        </div>
+      </div>
+      
+      <!-- Right Illustration -->
+      <div class="hero-right">
+        <div class="illustration">
+          <!-- Placeholder untuk gambar illustration -->
+          <!-- <div style="width: 380px; height: 380px; background: rgba(255,255,255,0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.5); font-size: 14px;">
+            [Illustration Image Placeholder]
+          </div> -->
+          <img src="{% static 'images/image_kerja-removebg-preview 1 (1).png' %}" alt="Eye.IRIS Logo" class="brand-logo" style="width: 380px; height: 380px;">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

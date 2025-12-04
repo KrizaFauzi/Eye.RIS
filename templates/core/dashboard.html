@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - Eye.IRIS{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Header is included from base.html -->
+
+<!-- Dashboard hero -->
+<section class="dashboard-hero">
+  <div class="container">
+    <h1 class="hero-title">Dashboard</h1>
+  </div>
+</section>
+
+<!-- Dashboard Cards Section -->
+<section class="dashboard-content">
+  <div class="container">
+    <div class="cards-wrapper">
+      <!-- LEFT COLUMN - Form Card -->
+      <div class="form-card">
+        <div class="card-body">
+          <!-- Form upload pasien -->
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-row">
+              {{ form.name.label_tag }}
+              {{ form.name }}
+            </div>
+            <div class="form-row">
+              {{ form.age.label_tag }}
+              {{ form.age }}
+            </div>
+            <div class="form-row">
+              {{ form.gender.label_tag }}
+              {{ form.gender }}
+            </div>
+            <div class="form-row">
+              <label>{{ form.image1.label }}</label>
+              <div class="file-upload-btn">
+                {{ form.image1 }}
+                <span class="file-btn-text">Browse Files</span>
+              </div>
+            </div>
+            <div class="form-row">
+              <label>{{ form.image2.label }}</label>
+              <div class="file-upload-btn">
+                {{ form.image2 }}
+                <span class="file-btn-text">Browse Files</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="submit" class="btn-submit">Kirim</button>
+            </div>
+          </form>
+
+          <!-- Loading indicator -->
+          <div id="loading-indicator" class="loading-indicator" style="display:none;">
+            <span class="spinner"></span>
+            <p>Memproses...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN - Results -->
+      <div class="results-column">
+        <!-- Prediction Result Card -->
+        <div class="prediction-card">
+          <div class="card-header">
+            <h2 class="card-title">PREDIKSI PENYAKIT</h2>
+          </div>
+          <div class="card-body">
+            {% if prediction %}
+            <div class="prediction-result">
+              <p>{{ prediction }}</p>
+            </div>
+            {% else %}
+            <div class="empty-state">
+              <p>Berdasarkan data pasien yang Anda masukkan, analisis prediktif kami menunjukkan hasil yang Normal. Tidak ada indikasi penyakit serius atau pola yang mengkhawatirkan yang terdeteksi. Data kesehatan Pasien berada dalam batas yang dianggap Normal dan stabil.</p>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- AI Summary Card -->
+        <div class="ai-summary-card">
+          <div class="card-header">
+            <h2 class="card-title">Ringkasan AI</h2>
+          </div>
+          <div class="card-body">
+            {% if ai_analysis %}
+            <div class="markdown-body">{{ ai_analysis|safe }}</div>
+            {% else %}
+            <div class="empty-state">
+              <p>Analisis AI terhadap input gelaja dan riwayat kesehatan Pasien telah selesai. Hasilnya menunjukkan tidak ada pola cocok dengan penyakit serius yang terekam dalam database kami. Jaga pola makan seimbang, Nutrisi: Jaga pola makan seimbang, Tidur: Prioritaskan terhadap cukup, Kontrol: Jangan lewatkan check-up tahunan.</p>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info Notice -->
+    <div class="info-notice">
+      <p>Prediksi ini berbasis model deep learning. Yang memiliki akurasi test sebesar 85%</p>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Show loading on form submit
+  const form = document.querySelector('form');
+  if (form) {
+    form.addEventListener('submit', function() {
+      document.getElementById('loading-indicator').style.display = 'flex';
+    });
+  }
+</script>
+{% endblock %}

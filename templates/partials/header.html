@@ -1,0 +1,76 @@
+{% load static %}
+<!-- Header / Topbar -->
+<header class="topbar">
+  <div class="container">
+    <div class="topbar-inner">
+      <!-- Brand -->
+      <div class="brand">
+        <img src="{% static 'images/Eye.RIS_Logo.png' %}" alt="Eye.IRIS Logo" class="brand-logo" style="height: fit-content; width: fit-content;">
+        <!-- <span class="brand-text">Eye.IRIS</span> -->
+      </div>
+
+      <!-- Nav and Auth -->
+      <div class="nav_auth" id="navAuth">
+        <!-- Navigation -->
+        <nav class="nav" aria-label="Primary">
+          <ul class="nav-list">
+            {% if user.is_authenticated %}
+              <li><a href="{% url 'dashboard' %}" class="nav-active">Dashboard</a></li>
+            {% endif %}
+            <li><a href="{% url 'landing' %}">Home</a></li>
+            <li><a href="{% url 'about' %}">Tentang Kami</a></li>
+            <li><a href="{% url 'faq' %}">FAQ</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+          </ul>
+        </nav>
+
+        <!-- Auth Buttons -->
+        <div class="auth">
+          {% if user.is_authenticated %}
+            <!-- User Logged In (show greeting + avatar + logout) -->
+            <div class="user-panel">
+              <span class="user-greeting">Hai! <strong>{{ user.first_name|default:user.email }}</strong></span>
+              <form action="{% url 'logout' %}" method="POST" style="display: inline; margin-left:8px;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-solid" style="cursor: pointer; border: none;">Logout</button>
+              </form>
+            </div>
+          {% else %}
+            <!-- User Not Logged In -->
+            <a href="{% url 'login' %}" class="btn btn-outline">Masuk</a>
+            <a href="{% url 'register' %}" class="btn btn-solid">Daftar</a>
+          {% endif %}
+        </div>
+
+        <!-- mobile hamburger (will show on small screens) -->
+        <button class="hamburger" id="hamburger" aria-expanded="false" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+
+        <!-- Mobile panel (hidden by default, shown when .open is toggled on #navAuth) -->
+        <div class="mobile-panel" aria-hidden="true">
+          <ul class="nav-list-mobile">
+            <li><a href="{% url 'landing' %}">Home</a></li>
+            <li><a href="{% url 'about' %}">Tentang Kami</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+          <div class="auth-mobile">
+            {% if user.is_authenticated %}
+              <!-- User Logged In -->
+              <span class="user-greeting-mobile">Hai! {{ user.first_name|default:user.email }}!</span>
+              <form action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-solid" style="cursor: pointer; border: none; width: 100%;">Logout</button>
+              </form>
+            {% else %}
+              <!-- User Not Logged In -->
+              <a href="{% url 'login' %}" class="btn btn-outline">Masuk</a>
+              <a href="{% url 'register' %}" class="btn btn-solid">Daftar</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

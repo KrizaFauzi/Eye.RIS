@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}FAQ - Eye.IRIS{% endblock %}
+
+{% block content %}
+<!-- FAQ Hero Section -->
+<div class="faq-hero">
+  <div class="container">
+    <h1 class="faq-title">Yang Sering Ditanyakan</h1>
+  </div>
+</div>
+
+<!-- FAQ Section -->
+<div class="faq-section">
+  <div class="container">
+    <div class="faq-wrapper">
+      <!-- FAQ Item 1 -->
+      <div class="faq-item">
+        <button class="faq-question" data-faq="1">
+          <span>Apa keunggulan utama Eye.RIS ?</span>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="faq-answer" id="answer-1">
+          <p>Keunggulan utama Eye.RIS adalah kemampuannya untuk memberikan output diagnosis prediktif yang komprehensif, cepat, berbasis Neuro Computing canggih, dan tersedia sepenuhnya gratis sebagai second opinion bagi dokter.</p>
+        </div>
+      </div>
+
+      <!-- FAQ Item 2 -->
+      <div class="faq-item">
+        <button class="faq-question" data-faq="2">
+          <span>Apa saja fitur utama yang saya dapatkan dari Eye.Ris ?</span>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="faq-answer" id="answer-2">
+          <p>Fitur utamanya meliputi Eye.RIS Calculator gratis untuk menginput data pasien dan gambar iris, analisis prediktif real-time, Laporan Komprehensif AI (Penyakit, Risiko, Tindakan Awal, Panduan Perilaku), serta fitur Histori Analisis.</p>
+        </div>
+      </div>
+
+      <!-- FAQ Item 3 -->
+      <div class="faq-item">
+        <button class="faq-question" data-faq="3">
+          <span>Apakah aplikasi ini cocok untuk dokter yang tidak memiliki latar belakang IT?</span>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="faq-answer" id="answer-3">
+          <p>Ya, Eye.RIS sangat cocok karena didesain dengan antarmuka calculator yang sederhana dan intuitif, membebaskan dokter dari kompleksitas teknis.</p>
+        </div>
+      </div>
+
+      <!-- FAQ Item 4 -->
+      <div class="faq-item">
+        <button class="faq-question" data-faq="4">
+          <span>Bagaimana jika saya kesulitan atau ada pertanyaan setelah menggunakan sistem?</span>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="faq-answer" id="answer-4">
+          <p>Kami menyediakan dukungan melalui Tim Teknis Langsung, akses ke Komunitas Supportif (jika tersedia), serta Dokumentasi Teknis lengkap mengenai cara kerja model dan interpretasi output AI.</p>
+        </div>
+      </div>
+
+      <!-- FAQ Item 5 -->
+      <div class="faq-item">
+        <button class="faq-question" data-faq="5">
+          <span>Apakah ada biaya yang dikenakan untuk menggunakan Eye.RIS?</span>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="faq-answer" id="answer-5">
+          <p>Tidak ada biaya, Eye.RIS dikembangkan sebagai proyek akademik/penelitian dan tersedia sepenuhnya gratis untuk mendukung komunitas medis sebagai alat second opinion berbasis neuro computing.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    
+    faqQuestions.forEach(button => {
+      button.addEventListener('click', function() {
+        const faqId = this.getAttribute('data-faq');
+        const answer = document.getElementById('answer-' + faqId);
+        const isOpen = answer.classList.contains('open');
+        
+        // Close all other FAQs
+        document.querySelectorAll('.faq-answer.open').forEach(item => {
+          item.classList.remove('open');
+        });
+        document.querySelectorAll('.faq-question.active').forEach(btn => {
+          btn.classList.remove('active');
+        });
+        
+        // Toggle current FAQ
+        if (!isOpen) {
+          answer.classList.add('open');
+          this.classList.add('active');
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}

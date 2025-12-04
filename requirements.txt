@@ -1,0 +1,13 @@
+Django
+python-dotenv
+psycopg2-binary
+langchain-groq
+requests
+numpy
+scikit-learn
+pandas
+pillow 
+joblib
+tensorflow
+xgboost
+fastai

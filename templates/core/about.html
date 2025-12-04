@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us - Eye.IRIS{% endblock %}
+
+{% block content %}
+<!-- Welcome Section -->
+<div class="about-hero">
+  <div class="container">
+    <div class="about-hero-inner">
+      <!-- Left Content -->
+      <div class="about-hero-left">
+        <h2 class="about-hero-subtitle">Selamat Datang di Eye.RIS</h2>
+        <p class="about-hero-description">
+          Integrasikan teknologi Deep Learning terdepan untuk menganalisis gambar iris dan memberikan prediksi penyakit yang cepat, akurat, dan komprehensif. Dirancang sebagai second opinion esensial untuk mendukung keputusan klinis Anda.
+        </p>
+      </div>
+      
+      <!-- Right Illustration -->
+      <div class="about-hero-right">
+        <img src="{% static 'images/bg_trans_abus 1.png' %}" alt="Eye.IRIS Logo" class="brand-logo" style="width: 480px; height: 380px;">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- About Statement Section -->
+<div class="about-statement">
+  <div class="container">
+    <h2 class="about-statement-title">CERITA KAMI</h2>
+    <p class="about-statement-text">
+      Kebutuhan akan akurasi, kecepatan, dan validasi diagnostik di bidang oftalmologi seringkali sulit dipenuhi, terutama dalam mendapatkan second opinion yang cepat. Oleh karena itu, Eye.RIS lahir dari kolaborasi ahli medis dan ilmuwan Neuro Computing. Kami berkomitmen menjadikan teknologi Deep Learning terjangkau dan dapat diakses, dengan menyediakan sistem opini kedua berbasis analisis data (gambar iris, umur, dan gender) untuk meningkatkan kualitas layanan pasien.
+    </p><br>
+    <p class="about-statement-text">
+      Tujuan utama kami adalah memberdayakan Anda dengan alat cerdas ini, memastikan keputusan klinis didukung oleh kecerdasan buatan terdepan. Eye.RIS adalah mitra wajib dalam praktik diagnosis mata Anda; perlu ditekankan, kami menyediakan prediksi yang akurat, namun Eye.RIS berfungsi sebagai alat pendukung keputusan yang vital, bukan pengganti keahlian dokter.
+    </p>
+  </div>
+</div>
+
+<!-- Features Section -->
+<div class="about-features">
+  <div class="container">
+    <div class="features-grid">
+      <!-- Feature 1 -->
+      <div class="feature-card">
+        <div class="feature-icon">
+          <!-- <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="20" fill="#FFF3E0" stroke="#D4AF37" stroke-width="1"/>
+            <path d="M18 28L22 32L32 18" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg> -->
+          <img src="{% static 'images/Asset About Us 1.png' %}" width="100px" height="100px">
+        </div>
+        <h3 class="feature-title">GRATIS</h3>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="feature-card">
+        <div class="feature-icon">
+          <!-- <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="20" fill="#E8F5E9" stroke="#2C3E50" stroke-width="1"/>
+            <circle cx="24" cy="20" r="3" fill="#2C3E50"/>
+            <path d="M24 24V32M20 28L24 32L28 28" stroke="#2C3E50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg> -->
+          <img src="{% static 'images/Asset About Us 2.png' %}" width="100px" height="100px">
+        </div>
+        <h3 class="feature-title">MENGGUNAKAN<br>AI</h3>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="feature-card">
+        <div class="feature-icon">
+          <!-- <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="20" fill="#E3F2FD" stroke="#1976D2" stroke-width="1"/>
+            <circle cx="18" cy="22" r="2" fill="#1976D2"/>
+            <circle cx="24" cy="18" r="2" fill="#1976D2"/>
+            <circle cx="30" cy="22" r="2" fill="#1976D2"/>
+            <circle cx="24" cy="28" r="2" fill="#1976D2"/>
+            <path d="M18 22L24 18L30 22M24 18L24 28M18 22L24 28M30 22L24 28" stroke="#1976D2" stroke-width="1.5" stroke-opacity="0.5"/>
+          </svg> -->
+          <img src="{% static 'images/Asset About Us 3.png' %}" width="100px" height="100px">
+        </div>
+        <h3 class="feature-title">MUDAH<br>DIGUNAKAN</h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

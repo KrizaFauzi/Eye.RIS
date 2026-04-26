@@ -1,0 +1,365 @@
+# 👁️ Eye.IRIS — Sistem Deteksi Penyakit Mata Berbasis AI
+
+**Eye.IRIS** adalah aplikasi web berbasis Django yang memungkinkan pengguna untuk melakukan **deteksi penyakit mata** dari foto fundus retina menggunakan model Machine Learning, dilengkapi dengan **analisis AI** dari LLM (Large Language Model) untuk memberikan rekomendasi medis secara otomatis.
+
+> Proyek ini dikembangkan sebagai Final Project mata kuliah **Neuro Computing**.
+
+---
+
+## 📌 Apa Itu Proyek Ini?
+
+Eye.IRIS adalah platform diagnostik mata berbasis web yang:
+
+- Menerima upload **dua foto fundus retina** (mata kiri dan mata kanan) dari seorang pasien
+- Memproses foto tersebut menggunakan model ML (disimpan sebagai `model_1.pkl`) untuk mendeteksi **8 kategori kondisi mata**:
+  - Normal
+  - Diabetes
+  - Glaucoma
+  - Cataract
+  - Age-related Macular Degeneration
+  - Hypertension
+  - Pathological Myopia
+  - Other diseases/abnormalities
+- Menganalisis hasil prediksi menggunakan **LLM via Groq API** untuk memberikan penjelasan, rekomendasi, dan saran tindak lanjut kepada pasien
+- Menyimpan riwayat data pasien ke database **PostgreSQL**
+- Dilindungi dengan sistem **autentikasi pengguna** (Login / Register / Logout)
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Teknologi |
+|-------|-----------|
+| **Web Framework** | Django |
+| **Database** | PostgreSQL (`psycopg2-binary`) |
+| **Machine Learning** | Scikit-learn, XGBoost, TensorFlow/Keras, FastAI, NumPy, Pandas, Joblib |
+| **Image Processing** | Pillow (PIL) |
+| **AI / LLM** | LangChain + Groq API (`langchain-groq`) |
+| **Templating** | Django Template Engine (HTML + CSS) |
+| **Environment** | python-dotenv |
+| **Custom Keras Layer** | Keras `register_keras_serializable` (GAM layer) |
+
+---
+
+## 📁 Struktur Proyek
+
+```
+Final Project 2/
+│
+├── manage.py                   # Entry point Django CLI
+├── requirements.txt            # Daftar dependencies Python
+├── .env                        # Variabel environment (tidak di-commit ke Git)
+├── .gitignore
+│
+├── iris/                       # Konfigurasi proyek Django
+│   ├── settings.py             # Pengaturan global (DB, Auth, Static, Media)
+│   ├── urls.py                 # Root URL router
+│   ├── asgi.py
+│   └── wsgi.py
+│
+├── core/                       # Aplikasi utama
+│   ├── models.py               # Model database: Patient
+│   ├── views.py                # Logic halaman (landing, dashboard, login, dll.)
+│   ├── forms.py                # Form: PatientForm, LoginForm, RegisterForm
+│   ├── urls.py                 # URL routing untuk aplikasi core
+│   ├── ai_utils.py             # Fungsi helper untuk memanggil LLM (Groq)
+│   ├── model_custom.py         # Custom Keras layer (GAM) untuk deserialisasi model
+│   ├── admin.py
+│   ├── apps.py
+│   └── model/
+│       └── model_1.pkl         # Model ML yang sudah dilatih (binary)
+│
+├── templates/                  # HTML templates
+│   ├── base.html               # Layout dasar (extend oleh halaman lain)
+│   ├── core/
+│   │   ├── landing.html        # Halaman utama publik
+│   │   ├── about.html          # Halaman tentang aplikasi
+│   │   ├── dashboard.html      # Halaman utama user (upload + hasil prediksi)
+│   │   ├── login.html          # Form login
+│   │   ├── register.html       # Form registrasi
+│   │   ├── contact.html        # Halaman kontak
+│   │   ├── faq.html            # Halaman FAQ
+│   │   ├── history.html        # Riwayat pemeriksaan
+│   │   └── screening.html      # Halaman screening
+│   └── partials/
+│       ├── header.html         # Navigasi + user greeting
+│       └── footer.html         # Footer global
+│
+├── static/
+│   ├── css/                    # File CSS
+│   └── images/                 # Gambar statis
+│
+├── media/
+│   └── patients/               # Foto fundus yang di-upload oleh user (auto-generated)
+│
+└── AUTHENTICATION_GUIDE.md     # Dokumentasi sistem autentikasi
+```
+
+---
+
+## 🚀 Cara Menjalankan Proyek
+
+### 1. Prasyarat
+
+Pastikan sudah terinstal:
+- Python 3.10+
+- PostgreSQL
+- pip
+
+### 2. Clone & Masuk ke Direktori
+
+```bash
+git clone <url-repo>
+cd "Final Project 2"
+```
+
+### 3. Buat Virtual Environment
+
+```bash
+python -m venv venv
+# Windows
+venv\Scripts\activate
+# Linux/macOS
+source venv/bin/activate
+```
+
+### 4. Instal Dependensi
+
+```bash
+pip install -r requirements.txt
+```
+
+### 5. Konfigurasi Environment
+
+Buat file `.env` di root proyek (sejajar dengan `manage.py`):
+
+```env
+SECRET_KEY=your_django_secret_key_here
+DEBUG=True
+
+# PostgreSQL
+DB_NAME=eyeiris_db
+DB_USER=postgres
+DB_PASSWORD=your_password
+DB_HOST=localhost
+DB_PORT=5432
+
+# Groq API
+GROQ_API_KEY=your_groq_api_key_here
+```
+
+> Dapatkan **GROQ_API_KEY** gratis di [https://console.groq.com](https://console.groq.com)
+
+### 6. Buat Database di PostgreSQL
+
+```sql
+CREATE DATABASE eyeiris_db;
+```
+
+### 7. Jalankan Migrasi
+
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
+### 8. (Opsional) Buat Superuser Admin
+
+```bash
+python manage.py createsuperuser
+```
+
+### 9. Jalankan Server
+
+```bash
+python manage.py runserver
+```
+
+Akses aplikasi di: **http://localhost:8000**
+
+---
+
+## 🗺️ URL yang Tersedia
+
+| URL | Halaman | Auth Required |
+|-----|---------|---------------|
+| `/` | Landing Page | ❌ |
+| `/about/` | Tentang Aplikasi | ❌ |
+| `/login/` | Login | ❌ |
+| `/register/` | Registrasi | ❌ |
+| `/dashboard/` | Dashboard & Prediksi | ✅ |
+| `/screening/` | Screening | ❌ |
+| `/contact/` | Kontak | ❌ |
+| `/faq/` | FAQ | ❌ |
+| `/logout/` | Logout (POST) | ✅ |
+| `/api/ai-answer/` | API: tanya ke AI | ❌ |
+| `/api/trigger-ai/` | API: trigger AI dari dashboard | ✅ |
+
+---
+
+## ➕ Cara Menambah Fitur Baru
+
+Berikut adalah pola standar untuk menambah fitur baru di proyek ini. Ikuti langkah-langkah berikut secara berurutan:
+
+### Langkah 1 — Tambah Model Database (jika perlu)
+
+Edit `core/models.py` dan buat class model baru:
+
+```python
+# core/models.py
+from django.db import models
+
+class NamaModelBaru(models.Model):
+    field_satu = models.CharField(max_length=255)
+    field_dua = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.field_satu
+```
+
+Lalu jalankan migrasi:
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
+---
+
+### Langkah 2 — Tambah Form (jika ada input dari user)
+
+Edit `core/forms.py`:
+
+```python
+# core/forms.py
+from django import forms
+from .models import NamaModelBaru
+
+class NamaFormBaru(forms.ModelForm):
+    class Meta:
+        model = NamaModelBaru
+        fields = ['field_satu', 'field_dua']
+        widgets = {
+            'field_satu': forms.TextInput(attrs={'class': 'form-input'}),
+        }
+```
+
+---
+
+### Langkah 3 — Tambah View (logika halaman)
+
+Edit `core/views.py` dan buat fungsi view baru:
+
+```python
+# core/views.py
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .forms import NamaFormBaru
+from .models import NamaModelBaru
+
+@login_required(login_url='login')  # Hapus decorator ini jika halaman publik
+def nama_fitur_view(request):
+    if request.method == 'POST':
+        form = NamaFormBaru(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('nama_url_tujuan')
+    else:
+        form = NamaFormBaru()
+    
+    return render(request, 'core/nama_template.html', {
+        'page': 'nama_fitur',
+        'form': form,
+    })
+```
+
+---
+
+### Langkah 4 — Daftarkan URL
+
+Edit `core/urls.py`:
+
+```python
+# core/urls.py
+from . import views
+
+urlpatterns = [
+    # ... url yang sudah ada ...
+    path('nama-fitur/', views.nama_fitur_view, name='nama_fitur'),
+]
+```
+
+---
+
+### Langkah 5 — Buat Template HTML
+
+Buat file baru di `templates/core/nama_template.html`:
+
+```html
+{% extends "base.html" %}
+{% block content %}
+
+<section class="nama-fitur-section">
+    <h1>Judul Fitur</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+</section>
+
+{% endblock %}
+```
+
+---
+
+### Langkah 6 — Tambah Integrasi AI (opsional)
+
+Jika fitur baru membutuhkan analisis dari LLM, gunakan helper di `core/ai_utils.py`:
+
+```python
+# Panggil dari view atau service lain
+from .ai_utils import ask_ai
+
+def analisis_fitur_baru(data_input: str) -> str:
+    system_prompt = "Kamu adalah asisten yang ahli dalam bidang X."
+    question = f"Analisis data berikut: {data_input}"
+    
+    answer, _ = ask_ai(variable=data_input, question=question, system_prompt=system_prompt)
+    return answer
+```
+
+Kemudian tambahkan fungsi ini ke `ai_utils.py` dan panggil dari view.
+
+---
+
+### Langkah 7 — (Opsional) Daftarkan ke Admin Panel
+
+Edit `core/admin.py`:
+
+```python
+from django.contrib import admin
+from .models import NamaModelBaru
+
+admin.site.register(NamaModelBaru)
+```
+
+---
+
+## 📝 Catatan Penting
+
+- **Model ML** disimpan sebagai `core/model/model_1.pkl` dan di-load menggunakan `joblib`. Model menerima input gambar berukuran **224×224 RGB**.
+- **Custom Layer GAM** di `core/model_custom.py` harus selalu di-import sebelum model di-load agar deserialisasi tidak gagal.
+- **Groq API Key** wajib ada di `.env`. Tanpa itu, server tidak akan bisa start.
+- **Media files** (foto upload) disimpan di folder `media/patients/` dan diakses melalui URL `/media/`.
+- Semua **protected routes** menggunakan decorator `@login_required(login_url='login')`.
+
+---
+
+## 📄 Dokumentasi Tambahan
+
+- [AUTHENTICATION_GUIDE.md](./AUTHENTICATION_GUIDE.md) — Panduan lengkap sistem autentikasi
+
+---
+
+*Proyek ini dikembangkan untuk keperluan akademis — Final Project Mata Kuliah Neuro Computing.*
